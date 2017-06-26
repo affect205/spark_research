@@ -31,6 +31,10 @@ public class Main {
                 .filter(row -> "male".equals(row.getString(3)))
                 .map(row -> row.getString(2))
                 .foreach(name -> System.out.println(name));
+        long maleCount = rdd
+                .filter(row -> "male".equals(row.getString(3)))
+                .map(row -> row.getString(2))
+                .count();
 
         System.out.println("============================================================");
         System.out.println("Womans only:");
@@ -38,6 +42,13 @@ public class Main {
                 .filter(row -> "female".equals(row.getString(3)))
                 .map(row -> row.getString(2))
                 .foreach(name -> System.out.println(name));
+        long femaleCount = rdd
+                .filter(row -> "female".equals(row.getString(3)))
+                .map(row -> row.getString(2))
+                .count();
+
+        System.out.println("============================================================");
+        System.out.printf("Mans = %s, Womans = %s\n", maleCount, femaleCount);
 
 
 //        JavaRDD<Row> rdd = spark.read().json(url.getPath()).javaRDD();
