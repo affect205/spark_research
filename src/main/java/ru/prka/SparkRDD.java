@@ -1,19 +1,16 @@
 package ru.prka;
 
-import org.apache.spark.api.java.JavaDoubleRDD;
 import org.apache.spark.api.java.JavaRDD;
-import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * Created by abalyshev on 14.06.17.
  */
-public class Main {
+public class SparkRDD {
     public static void main(String[] args) {
         SparkSession spark = SparkSession
                 .builder()
@@ -21,7 +18,7 @@ public class Main {
                 .config("spark.master", "local")
                 .getOrCreate();
 
-        URL url = Main.class.getClassLoader().getResource("test.csv");
+        URL url = SparkRDD.class.getClassLoader().getResource("test.csv");
 
         JavaRDD<Row> rdd = spark.read().csv(url.getPath()).javaRDD();
         //rdd.map(row -> System.out.println(row.toString()));
@@ -65,8 +62,8 @@ public class Main {
     public static void completableTest() {
         System.out.printf("[TID:%s] completableTest...\n", Thread.currentThread().getId());
         CompletableFuture<Void> future = CompletableFuture
-                .supplyAsync(Main::getString)
-                .thenAccept(Main::acceptResult);
+                .supplyAsync(SparkRDD::getString)
+                .thenAccept(SparkRDD::acceptResult);
     }
 
     public static String getString() {
