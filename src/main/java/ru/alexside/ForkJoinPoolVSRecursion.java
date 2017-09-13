@@ -1,4 +1,4 @@
-package ru.prka;
+package ru.alexside;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -19,7 +19,7 @@ import static java.nio.file.Files.list;
 public class ForkJoinPoolVSRecursion {
     private static List<Long> recAvg = new CopyOnWriteArrayList<>();
     private static List<Long> fjpAvg = new CopyOnWriteArrayList<>();
-    private static ForkJoinPool pool = new ForkJoinPool();
+    private static ForkJoinPool pool = new ForkJoinPool(1);
 
     public static void main(String[] args) throws Exception {
         System.out.println("ForkJoinPool vs Recursion comparison...");
@@ -36,7 +36,7 @@ public class ForkJoinPoolVSRecursion {
             compute(makeDataNode(path));
             long takes = System.currentTimeMillis() - before;
             recAvg.add(takes);
-            System.out.printf("[Step::%s] Recursion takes %sms\n", ndx, takes);
+            System.out.printf("[%s::Step::%s] Recursion takes %sms\n", Thread.currentThread().getId(), ndx, takes);
         }));
 
         Thread t2 = new Thread(() -> IntStream.range(0, limit).forEach(ndx -> {
@@ -44,7 +44,7 @@ public class ForkJoinPoolVSRecursion {
             pool.invoke(new DataTask(makeDataNode(path)));
             long takes = System.currentTimeMillis() - before;
             fjpAvg.add(takes);
-            System.out.printf("[Step::%s] ForkJoinPool takes %sms\n", ndx, takes);
+            System.out.printf("[%s::Step::%s] ForkJoinPool takes %sms\n", Thread.currentThread().getId(), ndx, takes);
         }));
 
         t1.start();
