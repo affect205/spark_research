@@ -1,4 +1,4 @@
-package ru.prka;
+package ru.prka.test;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.sql.Row;

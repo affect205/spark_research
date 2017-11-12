@@ -1,4 +1,4 @@
-package ru.prka;
+package ru.prka.test;
 
 
 import org.apache.kafka.clients.producer.KafkaProducer;

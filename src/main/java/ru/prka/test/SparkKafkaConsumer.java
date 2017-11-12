@@ -1,4 +1,4 @@
-package ru.prka;
+package ru.prka.test;
 
 import kafka.serializer.StringDecoder;
 import org.apache.spark.SparkConf;
